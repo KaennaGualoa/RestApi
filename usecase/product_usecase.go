@@ -9,13 +9,35 @@ type ProductUsecase struct {
 	repository repository.ProductRepository
 }
 
-func NewProductController(repo repository.ProductRepository) ProductUsecase {
+func NewProductUseCase(repo repository.ProductRepository) ProductUsecase {
 	return ProductUsecase{
-		repository: rapo,
+		repository: repo,
 	}
 
 }
 
 func (pu *ProductUsecase) GetProducts() ([]model.Product, error) {
-	return []model.Product{}, nil
+	return pu.repository.GetProducts()
+}
+
+func (pu *ProductUsecase) CreateProduct(product model.Product) (model.Product, error) {
+
+	productId, err := pu.repository.CreateProduct(product)
+	if err != nil {
+		return model.Product{}, err
+	}
+
+	product.ID = productId
+
+	return product, nil
+}
+
+func (pu *ProductUsecase) GetProductsById(id_product int) (*model.Product, error) {
+
+	product, err := pu.repository.GetProductsById(id_product)
+	if err != nil {
+		return nil, err
+	}
+
+	return product, nil
 }

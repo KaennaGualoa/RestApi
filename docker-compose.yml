@@ -1,5 +1,16 @@
 services:
-  go_bd:
+  go-app:
+    container_name: go-app
+    image: go-api-tutorial
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - go_db
+    networks:
+      - crud_golang_rest
+       
+  go_db:
     container_name: go_db
     image: postgres:12
     environment:
